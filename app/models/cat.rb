@@ -16,7 +16,9 @@ class Cat < ActiveRecord::Base
   )
 
   def age
-    Time.now - self.birth_date
+    age = Time.now - self.birth_date
+    age / 31_557_600
+
 
   end
 

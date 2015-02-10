@@ -18,4 +18,33 @@
   </tr>
 </table>
 
+<table style="width:100%">
+  <tr>
+    <th> REQUESTS</th>
+  <% @requests.each do |request| %>
+    <tr>
+      <th> <%=request.start_date%></th>
+      <th> <%= request.end_date%></th>
+      <th> <%=request.status%></th>
+      <th>
+        <% if request.pending? %>
+        <form action="<%= cat_rental_request_deny_url(request) %>" method="post">
+        <input type="hidden" name="_method" value="patch">
+
+        <button>Deny Request</button>
+        </form>
+        <% end %> </th>
+      <th> <% if request.pending? %>
+        <form action="<%= cat_rental_request_approve_url(request) %>" method="post">
+        <input type="hidden" name="_method" value="patch">
+
+        <button>Approve Request</button>
+      </form>
+      <% end %></th>
+
+    </tr>
+    <% end %>
+  </table>
+
+
 <a href="<%=cats_url%>"> Index </a>
