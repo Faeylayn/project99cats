@@ -1,7 +1,7 @@
 class CatRentalRequest < ActiveRecord::Base
   STATUS = ['pending', 'approved', 'denied']
 
-  validates :cat_id, :start_date, :end_date, :status, presence: true
+  validates :cat_id, :start_date, :end_date, :status, :user_id, presence: true
   validates :status, :inclusion => STATUS
   validate :approved_overlapping_requests
 
@@ -12,6 +12,13 @@ class CatRentalRequest < ActiveRecord::Base
       :primary_key => :id,
       :dependent => :destroy
       )
+
+   belongs_to(:user,
+      :class_name => "User",
+      :foreign_key => :user_id,
+      :primary_key => :id
+
+  )
 
   def overlapping_requests
     overlap = []
@@ -41,8 +48,9 @@ class CatRentalRequest < ActiveRecord::Base
   end
 
   def approve!
-    overlap = overlapping_requests
+
     ActiveRecord::Base.transaction do
+      overlap = overlapping_requests
       overlap.each do |request|
         request.status = 'denied'
         request.save

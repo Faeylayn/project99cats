@@ -22,6 +22,13 @@ class User < ActiveRecord::Base
 
   )
 
+  has_many(:requests,
+      :class_name => "CatRentalRequest",
+      :foreign_key => :user_id,
+      :primary_key => :id
+
+  )
+
   def ensure_session_token
     token = SecureRandom::urlsafe_base64
     self.session_token ||= token

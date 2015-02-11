@@ -2,6 +2,7 @@ class SessionsController < ApplicationController
   before_action :already_signed_in, only: [:new, :create]
 
   def new
+    @env = request.env["HTTP_USER_AGENT"]
     @user = User.new
     render :new
 

@@ -1,4 +1,5 @@
 class CatRentalRequestsController < ApplicationController
+  before_action :own_cat, only: [:approve, :deny]
 
   def index
     @requests = CatRentalRequest.all
@@ -13,7 +14,9 @@ class CatRentalRequestsController < ApplicationController
   end
 
   def create
+    user = current_user
     params[:request][:status] = "pending"
+    params[:request][:user_id] = user.id
     @request = CatRentalRequest.new(request_params)
     if @request.save
       redirect_to cat_url(params[:request][:cat_id])
@@ -50,6 +53,6 @@ class CatRentalRequestsController < ApplicationController
   end
 
   def request_params
-    params.require(:request).permit(:cat_id, :start_date, :end_date, :status)
+    params.require(:request).permit(:cat_id, :start_date, :end_date, :status, :user_id)
   end
 end

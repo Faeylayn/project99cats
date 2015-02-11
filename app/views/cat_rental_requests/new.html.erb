@@ -2,6 +2,9 @@
 
 <%= @request.errors.full_messages %>
 <form action="<%=cat_rental_requests_url%>" method="post">
+  <input type="hidden"
+       name="authenticity_token"
+       value="<%= form_authenticity_token %>">
 
   <select name="request[cat_id]", id="cat_id">
     <% @cats.each do |cat| %>
