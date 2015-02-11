@@ -14,9 +14,17 @@ class User < ActiveRecord::Base
 
   end
 
+
+  has_many(:cats,
+      :class_name => "Cat",
+      :foreign_key => :user_id,
+      :primary_key => :id
+
+  )
+
   def ensure_session_token
     token = SecureRandom::urlsafe_base64
-    self.session_token = token
+    self.session_token ||= token
   end
 
 

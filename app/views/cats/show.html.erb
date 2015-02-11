@@ -30,6 +30,9 @@
         <% if request.pending? %>
         <form action="<%= cat_rental_request_deny_url(request) %>" method="post">
         <input type="hidden" name="_method" value="patch">
+        <input type="hidden"
+             name="authenticity_token"
+             value="<%= form_authenticity_token %>">
 
         <button>Deny Request</button>
         </form>
@@ -37,6 +40,9 @@
       <th> <% if request.pending? %>
         <form action="<%= cat_rental_request_approve_url(request) %>" method="post">
         <input type="hidden" name="_method" value="patch">
+        <input type="hidden"
+             name="authenticity_token"
+             value="<%= form_authenticity_token %>">
 
         <button>Approve Request</button>
       </form>

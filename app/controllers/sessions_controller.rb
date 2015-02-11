@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  before_action :already_signed_in
+  skip_before_action :already_signed_in, only:[:new, :create]
 
   def new
     render :new
@@ -21,7 +21,9 @@ class SessionsController < ApplicationController
 
   def destroy
     user = current_user
+
     if user
+
       user.reset_session_token!
       session[:token] = nil
     end
