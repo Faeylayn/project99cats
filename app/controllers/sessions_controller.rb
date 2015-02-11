@@ -1,8 +1,11 @@
+
 class SessionsController < ApplicationController
   before_action :already_signed_in, only: [:new, :create]
 
   def index
     user = current_user
+    
+
     if user
       @sessions = user.sessions
       render :index
@@ -14,6 +17,7 @@ class SessionsController < ApplicationController
   end
 
   def new
+
 
     @user = User.new
     render :new

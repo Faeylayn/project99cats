@@ -4,9 +4,15 @@
   <tr>
     <th> Sessions</th>
   </tr>
+  <tr>
+      <th> Device </th>
+      <th> IP Address </th>
+    </tr>
   <% @sessions.each do |session| %>
     <tr>
       <th> <%=session.current_env%></th>
+      <th> <%= session.current_ip_address %> </th>
+      <th> <%= Geocoder.search(session.current_ip_address) %> </th>
 
   </tr>
   <% end %>

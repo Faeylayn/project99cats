@@ -39,6 +39,8 @@ gem 'spring',        group: :development
 # gem 'debugger', group: [:development, :test]
 gem 'bcrypt'
 
+gem 'geocoder'
+
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'

@@ -15,6 +15,7 @@ class ApplicationController < ActionController::Base
     new_session = Session.new
     new_session.user_id = user.id
     new_session.current_env = request.env["HTTP_USER_AGENT"]
+    new_session.current_ip_address = request.remote_ip
     if new_session.save
       session[:token] = new_session.session_token
     end
