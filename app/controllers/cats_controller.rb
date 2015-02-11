@@ -1,5 +1,6 @@
 class CatsController < ApplicationController
-  skip_before_action :already_signed_in, only: [:edit, :create, :new]
+  before_action :already_signed_in, only: [:create, :new]
+  before_action :own_cat, only: [:edit]
   def index
     @cats = Cat.all
     render :index
@@ -35,18 +36,32 @@ class CatsController < ApplicationController
 
   def edit
     @cat = Cat.find(params[:id])
-    user = current_user
-    if user.id == @cat.user_id
-      render :edit
-    else
-      flash[:errors] = "can't edit a cat that isn't yours"
+
+    render :edit
+  end
+
+  def update
+    @cat = Cat.find(params[:id])
+    if @cat.update(cat_params)
       redirect_to cat_url(@cat)
+    else
+      render :edit
     end
 
   end
 
 
   private
+  def own_cat
+    cat = Cat.find(params[:id])
+    user = current_user
+    if user.id != cat.user_id
+      flash[:errors] = "can't edit a cat that isn't yours"
+      redirect_to cat_url(cat)
+    end
+
+  end
+
   def cat_params
     params.require(:cat).permit(:color, :name, :sex, :description, :birth_date, :user_id)
   end

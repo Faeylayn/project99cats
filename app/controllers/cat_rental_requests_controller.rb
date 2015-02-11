@@ -39,6 +39,16 @@ class CatRentalRequestsController < ApplicationController
 
   private
 
+  def own_cat
+    request = CatRentalRequest.find(params[:id])
+    user = current_user
+    if user.id != request.cat.user_id
+      flash[:errors] = "can't edit a cat that isn't yours"
+      redirect_to cat_url(request.cat)
+    end
+
+  end
+
   def request_params
     params.require(:request).permit(:cat_id, :start_date, :end_date, :status)
   end

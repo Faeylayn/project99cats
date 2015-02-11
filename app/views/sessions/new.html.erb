@@ -1,5 +1,8 @@
 <h1> LOG IN PLEASE </h1>
 
+<%= @user.errors.full_messages %>
+<br>
+
 <form action="<%= session_url %>" method="POST">
   <input type="hidden"
        name="authenticity_token"

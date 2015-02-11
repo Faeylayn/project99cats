@@ -1,16 +1,17 @@
 class SessionsController < ApplicationController
-  skip_before_action :already_signed_in, only:[:new, :create]
+  before_action :already_signed_in, only: [:new, :create]
 
   def new
+    @user = User.new
     render :new
 
   end
 
   def create
-#    redirect_to new_session_url if params[:session][:username].nil? || params[:session][:password].nil?
-    user = User.find_by_credentials(params[:session][:username], params[:session][:password])
-    if user
-      sign_in(user)
+    @user = User.find_by_credentials(params[:session][:username], params[:session][:password])
+    if @user
+      sign_in(@user)
+
       redirect_to cats_url
     else
       render :new
