@@ -18,6 +18,7 @@ class CatsController < ApplicationController
 
   def create
     @cat = Cat.new(cat_params)
+    @requests = []
     if @cat.save
       render :show
     else
