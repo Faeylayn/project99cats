@@ -1,8 +1,7 @@
 class User < ActiveRecord::Base
-  validates :username, :password_digest, :session_token, presence: true
+  validates :username, :password_digest, presence: true
 
 
-  before_validation :ensure_session_token
 
   def self.find_by_credentials(username, password)
     return nil if username.blank? || password.blank?
@@ -29,18 +28,11 @@ class User < ActiveRecord::Base
 
   )
 
-  def ensure_session_token
-    token = SecureRandom::urlsafe_base64
-    self.session_token ||= token
-  end
-
-
-  def reset_session_token!
-    token = SecureRandom::urlsafe_base64
-    self.session_token = token
-    self.save
-
-  end
+  has_many(:sessions,
+      :class_name => "Session",
+      :foreign_key => :user_id,
+      :primary_key => :id
+  )
 
   def password=(value)
     @password = value

@@ -1,8 +1,20 @@
 class SessionsController < ApplicationController
   before_action :already_signed_in, only: [:new, :create]
 
+  def index
+    user = current_user
+    if user
+      @sessions = user.sessions
+      render :index
+    else
+      redirect_to cats_url
+    end
+
+
+  end
+
   def new
-    @env = request.env["HTTP_USER_AGENT"]
+
     @user = User.new
     render :new
 
@@ -25,8 +37,8 @@ class SessionsController < ApplicationController
     user = current_user
 
     if user
-
-      user.reset_session_token!
+      current_session ||= Session.find_by(:session_token => session[:token])
+      current_session.destroy!
       session[:token] = nil
     end
       redirect_to cats_url

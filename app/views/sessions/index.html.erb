@@ -1,0 +1,13 @@
+<h1>Current Active Sessions</h1>
+
+<table style="width:100%">
+  <tr>
+    <th> Sessions</th>
+  </tr>
+  <% @sessions.each do |session| %>
+    <tr>
+      <th> <%=session.current_env%></th>
+
+  </tr>
+  <% end %>
+</table>
