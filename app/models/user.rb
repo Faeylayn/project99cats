@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
   validates :username, :password_digest, :session_token, presence: true
+  
 
-  before_validate
+  before_validation :reset_session_token!
 
   def self.find_by_credentials(username, password)
     u = User.find_by(:username => username)
